@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="shuping 的个人博客，记录思考、生活与成长。" />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <title>shuping｜记录思考、生活与成长</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --paper: #f7f6f2;
+      --ink: #171716;
+      --muted: #68665f;
+      --line: #c8c5bb;
+      --soft-line: #dedbd2;
+      --accent: #a23b2a;
+      --accent-ink: #7c2e21;
+      --selection: #dcc7b8;
+      --max: 1180px;
+      --serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+      --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #171716;
+        --ink: #efeee9;
+        --muted: #aaa79f;
+        --line: #55524b;
+        --soft-line: #35332f;
+        --accent: #d97861;
+        --accent-ink: #ec917a;
+        --selection: #674035;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: var(--selection); }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+      z-index: 20;
+    }
+    .page {
+      width: min(calc(100% - 56px), var(--max));
+      margin: 0 auto;
+    }
+    .mast {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: 78px;
+      border-bottom: 1px solid var(--ink);
+    }
+    .mast-note {
+      margin: 0;
+      font: 500 12px/1.4 var(--sans);
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+    .mast nav { display: flex; gap: 28px; }
+    .mast a {
+      font-size: 13px;
+      text-decoration: none;
+      position: relative;
+    }
+    .mast a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -5px;
+      height: 1px;
+      background: var(--accent);
+      transition: right .2s ease;
+    }
+    .mast a:hover::after, .mast a:focus-visible::after { right: 0; }
+    .mast a:focus-visible, .text-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr);
+      gap: clamp(56px, 9vw, 132px);
+      padding: clamp(74px, 11vw, 144px) 0 clamp(80px, 11vw, 136px);
+      border-bottom: 1px solid var(--line);
+    }
+    .intro h1 {
+      margin: 0;
+      font: 900 clamp(68px, 11vw, 152px)/.82 var(--serif);
+      letter-spacing: -.075em;
+      transform: translateX(-.08em);
+    }
+    .intro-copy {
+      align-self: end;
+      padding: 22px 0 2px 24px;
+      border-left: 1px solid var(--line);
+    }
+    .intro-copy .issue {
+      margin: 0 0 26px;
+      color: var(--accent);
+      font: 600 12px/1 var(--sans);
+      letter-spacing: .14em;
+    }
+    .intro-copy p {
+      margin: 0;
+      max-width: 12em;
+      font: 600 clamp(24px, 3.2vw, 40px)/1.38 var(--serif);
+      letter-spacing: -.025em;
+    }
+    .intro-copy .arrow {
+      display: inline-block;
+      margin-top: 30px;
+      font-size: 24px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: transform .2s ease;
+    }
+    .intro-copy .arrow:hover { transform: translateY(4px); }
+
+    .feature {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: clamp(36px, 7vw, 96px);
+      padding: clamp(68px, 9vw, 112px) 0 62px;
+    }
+    .feature-meta { padding-top: 8px; }
+    .feature-meta .number {
+      display: block;
+      font: 400 54px/1 var(--serif);
+      letter-spacing: -.05em;
+      color: var(--accent);
+    }
+    .feature-meta .label {
+      display: block;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      letter-spacing: .08em;
+    }
+    .feature-main h2 {
+      margin: 0;
+      max-width: 850px;
+      font: 700 clamp(46px, 7vw, 88px)/1.08 var(--serif);
+      letter-spacing: -.05em;
+    }
+    .standfirst {
+      max-width: 720px;
+      margin: 38px 0 0;
+      color: var(--muted);
+      font: 400 clamp(18px, 2.2vw, 24px)/1.8 var(--serif);
+    }
+    .article-rule {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: clamp(36px, 7vw, 96px);
+      margin-top: 56px;
+      padding-top: 16px;
+      border-top: 1px solid var(--ink);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .article-rule span:last-child { text-align: right; }
+
+    article {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 650px) 1fr;
+      gap: clamp(36px, 7vw, 96px);
+      padding: 22px 0 clamp(96px, 12vw, 160px);
+      border-bottom: 1px solid var(--ink);
+    }
+    .contents {
+      position: sticky;
+      top: 34px;
+      align-self: start;
+      padding-top: 12px;
+    }
+    .contents strong {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .contents a {
+      display: block;
+      margin: 10px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      text-decoration: none;
+    }
+    .contents a:hover { color: var(--accent); }
+    .essay { grid-column: 2; }
+    .essay section { scroll-margin-top: 28px; }
+    .essay p {
+      margin: 0 0 1.65em;
+      font: 400 17px/2.05 var(--serif);
+      letter-spacing: .01em;
+    }
+    .essay .lead::first-letter {
+      float: left;
+      margin: .12em .14em 0 0;
+      font: 700 4.15em/.75 var(--serif);
+      color: var(--accent);
+    }
+    .essay h3 {
+      margin: 3.3em 0 1.25em;
+      padding-top: 1.1em;
+      border-top: 1px solid var(--soft-line);
+      font: 700 28px/1.35 var(--serif);
+      letter-spacing: -.02em;
+    }
+    blockquote {
+      margin: 3.3em 0;
+      padding: 0;
+      border: 0;
+      font: 600 clamp(26px, 3.4vw, 38px)/1.55 var(--serif);
+      letter-spacing: -.025em;
+      color: var(--accent-ink);
+    }
+    .side-note {
+      grid-column: 3;
+      align-self: start;
+      margin-top: 188px;
+      max-width: 180px;
+      color: var(--muted);
+      font: 400 12px/1.75 var(--sans);
+    }
+    .side-note::before {
+      content: "";
+      display: block;
+      width: 36px;
+      height: 1px;
+      margin-bottom: 13px;
+      background: var(--accent);
+    }
+    .signature {
+      margin-top: 68px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font: 600 18px/1.6 var(--serif);
+    }
+    .signature span { display: block; color: var(--muted); font: 400 12px/1.5 var(--sans); }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 28px;
+      padding: 42px 0 max(42px, env(safe-area-inset-bottom));
+    }
+    footer p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    footer strong { color: var(--ink); font-weight: 500; }
+    .back-top {
+      border: 0;
+      border-bottom: 1px solid var(--ink);
+      padding: 0 0 4px;
+      background: transparent;
+      color: var(--ink);
+      font: 500 12px/1 var(--sans);
+      cursor: pointer;
+    }
+    .back-top:hover { color: var(--accent); border-color: var(--accent); }
+
+    @media (max-width: 800px) {
+      .page { width: min(calc(100% - 36px), var(--max)); }
+      .mast { min-height: 64px; }
+      .mast-note { max-width: 15em; }
+      .mast nav { gap: 18px; }
+      .mast nav a:first-child { display: none; }
+      .intro {
+        grid-template-columns: 1fr;
+        gap: 58px;
+        padding: 74px 0 80px;
+      }
+      .intro h1 { font-size: clamp(70px, 25vw, 112px); }
+      .intro-copy { width: min(100%, 390px); margin-left: auto; }
+      .feature { grid-template-columns: 1fr; gap: 32px; padding-top: 70px; }
+      .feature-meta { display: grid; grid-template-columns: auto 1fr; align-items: end; gap: 24px; }
+      .feature-meta .number { font-size: 43px; }
+      .feature-meta .label { margin: 0; padding: 0 0 3px; border: 0; border-bottom: 1px solid var(--line); }
+      .feature-main h2 { font-size: clamp(43px, 13vw, 64px); }
+      .standfirst { margin-top: 28px; font-size: 19px; }
+      .article-rule { grid-template-columns: 1fr auto; gap: 16px; margin-top: 44px; }
+      article { display: block; padding-top: 0; }
+      .contents { position: static; display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 19px 0 36px; border-bottom: 1px solid var(--soft-line); }
+      .contents strong { width: 100%; margin: 0 0 2px; }
+      .contents a { margin: 0; }
+      .essay { padding-top: 42px; }
+      .essay p { font-size: 16px; line-height: 2; }
+      .essay h3 { font-size: 25px; }
+      blockquote { font-size: 27px; }
+      .side-note { max-width: none; margin: 45px 0 0; }
+    }
+
+    @media (max-width: 460px) {
+      .page { width: calc(100% - 28px); }
+      .mast-note { font-size: 11px; letter-spacing: .04em; }
+      .intro { padding-top: 62px; }
+      .intro-copy p { font-size: 25px; }
+      .feature-main h2 { font-size: 43px; }
+      .article-rule span:last-child { max-width: 8em; }
+      footer { align-items: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="page">
+    <header class="mast">
+      <p class="mast-note">记录思考、生活与成长</p>
+      <nav aria-label="页面导航">
+        <a href="#about">关于</a>
+        <a href="#article">文章</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro" id="about" aria-labelledby="author-name">
+        <h1 id="author-name">shuping</h1>
+        <div class="intro-copy">
+          <p class="issue">个人札记 · 开篇</p>
+          <p>记录思考、<br />生活与成长</p>
+          <a class="arrow" href="#article" aria-label="阅读首篇文章">↓</a>
+        </div>
+      </section>
+
+      <section class="feature" id="article" aria-labelledby="article-title">
+        <aside class="feature-meta" aria-label="文章编号与分类">
+          <span class="number">01</span>
+          <span class="label">思考 / 写作<br />首篇文章</span>
+        </aside>
+        <div class="feature-main">
+          <h2 id="article-title">我为什么<br />开始写博客</h2>
+          <p class="standfirst">把稍纵即逝的念头写下来，不急着得出结论。写作是一次整理，也是一种让自己看清变化的方式。</p>
+          <div class="article-rule" aria-hidden="true">
+            <span>shuping</span>
+            <span>约 4 分钟阅读</span>
+          </div>
+        </div>
+      </section>
+
+      <article aria-label="我为什么开始写博客">
+        <nav class="contents" aria-label="文章目录">
+          <strong>目录</strong>
+          <a href="#reason">01 留下一点痕迹</a>
+          <a href="#thinking">02 写作即思考</a>
+          <a href="#slow">03 慢一点</a>
+        </nav>
+
+        <div class="essay">
+          <section id="reason">
+            <p class="lead">开始写博客，并不是因为已经想明白了许多事。恰恰相反，是因为想法总在出现，也总在消失。它们散落在日常里：一个没有追问到底的问题，一次尚未整理清楚的感受，或是一件值得记住的小事。</p>
+            <p>当这些片段只停留在脑海中，它们很容易被下一个念头盖过去。写下来，是给它们一个暂时停靠的地方。不是为了让每篇文字都成为答案，而是让问题有机会继续生长。</p>
+          </section>
+
+          <section id="thinking">
+            <h3>写作，是把模糊变得清楚</h3>
+            <p>很多时候，以为自己已经理解了一件事，真正落到纸面，才发现其中还有跳跃、矛盾和空白。写作迫使思绪慢下来：什么是事实，什么只是判断；什么真正重要，什么不过是一时的情绪。</p>
+            <blockquote>文字不一定抵达结论，<br />但会留下思考走过的路径。</blockquote>
+            <p>这也是博客吸引人的地方。它不像即时表达那样匆忙，可以修改，可以补充，也可以承认暂时没有答案。每一篇都只是当下的切面，彼此连接起来，才渐渐显出一个人如何观察世界。</p>
+          </section>
+
+          <section id="slow">
+            <h3>在快速流动里，保留一点缓慢</h3>
+            <p>日常的信息太多，注意力很容易被带走。阅读一篇长一点的文章需要耐心，写一篇更是如此。也正因为慢，文字才让人重新拥有完整的时间：专注于一个问题，沿着它走得更深一些。</p>
+            <p>所以，从这里开始。记录思考，也记录生活里那些看似普通、回头看却可能重要的时刻。以后再读到这些文字时，希望看到的不只是曾经相信什么，也能看见想法如何改变，自己如何一步步成长。</p>
+          </section>
+
+          <p class="signature">shuping<span>写在博客开始的地方</span></p>
+        </div>
+
+        <aside class="side-note">不追求频繁更新，只认真保存值得反复阅读的想法。</aside>
+      </article>
+    </main>
+
+    <footer>
+      <p><strong>shuping</strong><br />记录思考、生活与成长</p>
+      <button class="back-top" type="button">回到顶部 ↑</button>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var progress = document.querySelector('.progress');
+      var backTop = document.querySelector('.back-top');
+      function updateProgress() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var value = max > 0 ? Math.min(100, Math.max(0, window.scrollY / max * 100)) : 0;
+        progress.style.width = value + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+      backTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      updateProgress();
+    }());
+  </script>
+</body>
+</html>
